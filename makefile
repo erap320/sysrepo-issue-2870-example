@@ -1,0 +1,18 @@
+LIBYANG_VERSION		?= 9ad76850c140466488422c99f4ca01bf635b828a
+SYSREPO_VERSION		?= 9ef472743e57e346a820cede2e5d747713eb4197
+LIBNETCONF2_VERSION	?= 4d9d7993d710f1a9d17657e19a2d1eec803f3d6b
+NETOPEER2_VERSION	?= ebb5b0bfd89a77311724f35339d466abab96b743
+
+.PHONY: run
+
+run: build
+	docker run --rm -it erap320/issue-2870 2>&1
+
+build: Dockerfile
+	docker build \
+	  -t erap320/issue-2870 \
+	  -f Dockerfile . \
+	  --build-arg LIBYANG_VERSION=${LIBYANG_VERSION} \
+	  --build-arg SYSREPO_VERSION=${SYSREPO_VERSION} \
+	  --build-arg LIBNETCONF2_VERSION=${LIBNETCONF2_VERSION} \
+	  --build-arg NETOPEER2_VERSION=${NETOPEER2_VERSION}
